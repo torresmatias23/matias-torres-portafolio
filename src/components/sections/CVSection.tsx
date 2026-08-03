@@ -21,9 +21,9 @@ function CVSection() {
         </p>
         <div className="mt-7">
           <ButtonLink
-            href="/cv/Matias_Torres_CV.pdf"
+            href="/cv/Matias_Torres_CV.pdf?v=2026-08"
             variant="primary"
-            download
+            download="Matias_Torres_CV.pdf"
             aria-label="Descargar CV profesional de Matías Andrés Torres Troncoso"
           >
             Descargar CV

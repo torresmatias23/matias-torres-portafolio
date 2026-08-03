@@ -1,8 +1,9 @@
+import { projects } from '../../data/projects';
 import GlassCard from '../ui/GlassCard';
 
 const summaryItems = [
   {
-    value: '4',
+    value: String(projects.length),
     label: 'Proyectos destacados',
   },
   {

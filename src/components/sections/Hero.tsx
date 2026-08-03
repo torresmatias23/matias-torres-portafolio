@@ -31,7 +31,11 @@ function Hero() {
             <ButtonLink href="#proyectos" variant="primary">
               Ver proyectos
             </ButtonLink>
-            <ButtonLink href="/cv/Matias_Torres_CV.pdf" variant="secondary" download>
+            <ButtonLink
+              href="/cv/Matias_Torres_CV.pdf?v=2026-08"
+              variant="secondary"
+              download="Matias_Torres_CV.pdf"
+            >
               Descargar CV
             </ButtonLink>
             <ButtonLink

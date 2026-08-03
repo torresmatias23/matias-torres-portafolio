@@ -1,5 +1,6 @@
 export type Project = {
   name: string;
+  type?: string;
   description: string;
   problemSolved: string;
   technologies: string[];
@@ -9,11 +10,50 @@ export type Project = {
   screenshots: string[];
   previewFit?: 'cover' | 'contain';
   previewFrame?: 'phone';
+  featured?: boolean;
   demoUrl: string;
   repositoryUrl: string;
 };
 
 export const projects: Project[] = [
+  {
+    name: 'BYV.STOREEE',
+    type: 'E-commerce streetwear para negocio real',
+    description:
+      'Plataforma de comercio electrónico desarrollada para un emprendimiento real de streetwear en Chile. Permite presentar productos en stock inmediato, artículos disponibles a pedido, próximos lanzamientos y selecciones destacadas, facilitando la consulta y compra mediante WhatsApp.',
+    problemSolved:
+      'Centraliza el catálogo del negocio, diferencia claramente la disponibilidad y modalidad de compra de cada producto, mejora la presentación comercial y permite administrar productos, variantes, imágenes y próximos drops desde un panel protegido.',
+    technologies: [
+      'Next.js',
+      'React',
+      'TypeScript',
+      'Tailwind CSS',
+      'Supabase',
+      'PostgreSQL',
+      'Supabase Auth',
+      'Supabase Storage',
+      'Vercel',
+    ],
+    status: 'Proyecto real funcional en desarrollo',
+    role:
+      'Desarrollo full stack, diseño de interfaz, experiencia de usuario, modelamiento de datos, integración con Supabase, autenticación, administración de productos, variantes, imágenes, drops y despliegue en Vercel.',
+    learning:
+      'Demuestra desarrollo de una plataforma comercial completa, uso de Next.js App Router, autenticación y roles, CRUD administrativo, almacenamiento de imágenes, modelamiento relacional, validaciones, diseño responsive, SEO y despliegue continuo.',
+    screenshots: [
+      '/images/projects/byv-storeee/home.png',
+      '/images/projects/byv-storeee/featured.png',
+      '/images/projects/byv-storeee/stock.png',
+      '/images/projects/byv-storeee/made-to-order.png',
+      '/images/projects/byv-storeee/drops.png',
+      '/images/projects/byv-storeee/categories.png',
+      '/images/projects/byv-storeee/purchase-options.png',
+      '/images/projects/byv-storeee/contact.png',
+    ],
+    previewFit: 'contain',
+    featured: true,
+    demoUrl: 'https://byv-storeee.vercel.app',
+    repositoryUrl: '#',
+  },
   {
     name: 'Habita360',
     description:

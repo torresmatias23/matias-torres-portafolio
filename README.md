@@ -27,6 +27,12 @@ https://github.com/torresmatias23/matias-torres-portafolio
 
 ## Proyectos Destacados
 
+### BYV.STOREEE
+
+E-commerce streetwear desarrollado para un negocio real, con catálogo por disponibilidad, próximos drops, compra mediante WhatsApp y administración protegida de productos, variantes e imágenes.
+
+Demo: https://byv-storeee.vercel.app
+
 ### Habita360
 
 Sistema de gestión inteligente para condominios, con módulos administrativos, autenticación, usuarios, roles, unidades y vistas internas.
@@ -47,7 +53,7 @@ Sitio web para un emprendimiento real de venta de ropa, enfocado en presencia di
 
 ### Frontend
 
-React, TypeScript, JavaScript, HTML, CSS, Tailwind CSS, Vite.
+Next.js, React, TypeScript, JavaScript, HTML, CSS, Tailwind CSS, Vite.
 
 ### Mobile
 
@@ -55,7 +61,7 @@ Flutter, Dart, React Native, Expo, diseño responsive.
 
 ### Backend Y Datos
 
-Node.js, Python, FastAPI, Django, APIs REST, WebSockets, JWT, SQL, PostgreSQL, MySQL.
+Node.js, Python, FastAPI, Django, Supabase, APIs REST, WebSockets, JWT, autenticación, Storage, SQL, PostgreSQL, MySQL.
 
 ### Datos, Cloud E IA
 
