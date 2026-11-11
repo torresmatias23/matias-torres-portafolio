@@ -19,7 +19,7 @@ function Contact() {
       <SectionTitle
         eyebrow="Contacto"
         title="Hablemos"
-        description="Disponible desde julio para integrarme a equipos de desarrollo, soporte TI, análisis de datos o proyectos tecnológicos."
+        description="Disponible para oportunidades laborales en desarrollo de software y equipos tecnológicos."
       />
 
       <GlassCard className="mx-auto max-w-4xl p-6 sm:p-8">
@@ -30,7 +30,7 @@ function Contact() {
             </p>
             <a
               href={contact.emailHref}
-              className="text-lg font-semibold text-white transition hover:text-cyan-100"
+              className="break-all text-lg font-semibold text-white transition hover:text-cyan-100"
               aria-label="Enviar correo a Matías Andrés Torres Troncoso"
             >
               {contact.email}
@@ -43,8 +43,7 @@ function Contact() {
               {contact.phone}
             </a>
             <p className="mt-3 leading-7 text-slate-300">
-              Disponible desde julio para integrarme a equipos de desarrollo, soporte
-              TI, análisis de datos o proyectos tecnológicos.
+              Me interesa aportar en soluciones web, móviles y empresariales. Conversemos sobre tu equipo y sus próximos desafíos.
             </p>
           </div>
 

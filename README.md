@@ -16,6 +16,7 @@ https://github.com/torresmatias23/matias-torres-portafolio
 
 - Inicio
 - Sobre mí
+- Experiencia profesional
 - Resumen profesional
 - Formación técnica
 - Qué puedo aportar
@@ -27,19 +28,19 @@ https://github.com/torresmatias23/matias-torres-portafolio
 
 ## Proyectos Destacados
 
+### EnergyACS / IMPOFUSION
+
+Soluciones industriales y comerciales desarrolladas durante mi práctica profesional finalizada en octubre de 2026: IMPUS FUSION, Portal de Créditos, CRM comercial y E-IMPUS. Cierre técnico DEV, pruebas e integración de datos.
+
+### CitaJusta
+
+Proyecto Capstone de gestión y reserva de citas, búsqueda de disponibilidad, lista de espera y administración institucional. Prototipo funcional en desarrollo, sujeto a verificación.
+
 ### BYV.STOREEE
 
 E-commerce streetwear desarrollado para un negocio real, con catálogo por disponibilidad, próximos drops, compra mediante WhatsApp y administración protegida de productos, variantes e imágenes.
 
 Demo: https://byv-storeee.vercel.app
-
-### Habita360
-
-Sistema de gestión inteligente para condominios, con módulos administrativos, autenticación, usuarios, roles, unidades y vistas internas.
-
-### VoxIA
-
-Sistema orientado a la gestión digital de pedidos para negocios, con catálogo, pedidos por texto o voz, cocina, entrenamiento IA y métricas.
 
 ### MiCloset
 
@@ -84,7 +85,9 @@ npm run preview
 
 ## Objetivo Del Proyecto
 
-Este portafolio tiene como objetivo presentar mi perfil profesional, formación técnica, proyectos destacados, tecnologías, CV y datos de contacto como estudiante de Ingeniería en Informática en Duoc UC, disponible para práctica profesional desde julio.
+Este portafolio presenta mi experiencia en desarrollo de software, formación en Ingeniería en Informática en Duoc UC, proyectos, CV y contacto. Finalicé mi práctica profesional en EnergyACS SpA / IMPOFUSION en octubre de 2026 y estoy disponible para oportunidades laborales.
+
+Consulta `ASSET_REVIEW.md` para conocer las capturas excluidas, permisos pendientes y fuentes de verificación del stack. Los originales internos se conservan fuera de los archivos públicos. No se publican automáticamente.
 
 ## Autor
 

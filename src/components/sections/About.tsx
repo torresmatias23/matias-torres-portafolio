@@ -2,19 +2,23 @@ import { useState } from 'react';
 import GlassCard from '../ui/GlassCard';
 import SectionTitle from '../ui/SectionTitle';
 
-const profileImage = '/images/profile/matias-torres.png';
+const profileImage = '/images/profile/matias-torres-perfil.webp';
+const hasProfileImage = Object.keys(import.meta.glob('/public/images/profile/*')).some((path) => path.endsWith('/matias-torres-perfil.webp'));
 
 function ProfilePreview() {
-  const [showPhoto, setShowPhoto] = useState(true);
+  const [showPhoto, setShowPhoto] = useState(hasProfileImage);
 
   return (
-    <GlassCard className="mx-auto flex max-w-sm flex-col items-center p-6 text-center lg:mx-0">
-      <div className="flex h-28 w-28 items-center justify-center overflow-hidden rounded-full border border-cyan-200/25 bg-cyan-200/10 shadow-[0_0_42px_rgba(34,211,238,0.16)]">
+    <GlassCard className="mx-auto flex w-full max-w-sm flex-col items-center justify-center p-6 text-center lg:mx-0">
+      <div className="flex h-36 w-36 shrink-0 items-center justify-center overflow-hidden rounded-full border border-cyan-200/20 bg-cyan-200/5 sm:h-40 sm:w-40">
         {showPhoto ? (
           <img
             src={profileImage}
-            alt="Foto de perfil de Matías Andrés Torres Troncoso"
-            className="h-full w-full object-cover"
+            alt="Fotografía de Matías Torres"
+            width={1000}
+            height={1177}
+            loading="lazy"
+            className="h-full w-full origin-top scale-150 object-cover object-[50%_20%]"
             onError={() => setShowPhoto(false)}
           />
         ) : (
@@ -46,18 +50,13 @@ function About() {
             Matías Andrés Torres Troncoso
           </p>
           <p className="mt-4 text-base leading-8 text-slate-300 sm:text-lg">
-            Soy estudiante de Ingeniería en Informática en Duoc UC, actualmente enfocado
-            en fortalecer mi perfil como desarrollador a través de proyectos web,
-            mobile y backend. Me interesa crear soluciones digitales útiles, ordenadas
-            y escalables, combinando desarrollo de software, bases de datos,
-            experiencia de usuario e inteligencia artificial aplicada.
+            Soy estudiante de Ingeniería en Informática en Duoc UC, con interés en el desarrollo de software, aplicaciones web y móviles, bases de datos y nuevas tecnologías.
           </p>
           <p className="mt-5 text-base leading-8 text-slate-300 sm:text-lg">
-            Durante mi formación he trabajado en proyectos personales y académicos que
-            integran tecnologías como React, TypeScript, Flutter, FastAPI, PostgreSQL y
-            herramientas de análisis de datos. Me interesa aportar con compromiso,
-            aprendizaje rápido, trabajo en equipo y una mirada orientada a resolver
-            problemas reales mediante tecnología.
+            Durante mi formación he trabajado en proyectos académicos, personales y profesionales, utilizando diferentes lenguajes, frameworks y herramientas para construir soluciones digitales. Me interesa comprender los problemas, diseñar alternativas y desarrollar aplicaciones que sean funcionales, claras y fáciles de utilizar.
+          </p>
+          <p className="mt-5 text-base leading-8 text-slate-300 sm:text-lg">
+            Me considero una persona responsable, comprometida con el aprendizaje continuo y capaz de adaptarme a nuevos desafíos. Disfruto trabajar en equipo, compartir conocimientos y seguir desarrollando mis habilidades como profesional del área informática.
           </p>
         </GlassCard>
       </div>

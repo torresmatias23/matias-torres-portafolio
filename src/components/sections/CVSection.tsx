@@ -1,6 +1,7 @@
 import ButtonLink from '../ui/ButtonLink';
 import GlassCard from '../ui/GlassCard';
 import SectionTitle from '../ui/SectionTitle';
+import { cvUrl } from '../../data/profile';
 
 function CVSection() {
   return (
@@ -21,7 +22,7 @@ function CVSection() {
         </p>
         <div className="mt-7">
           <ButtonLink
-            href="/cv/Matias_Torres_CV.pdf?v=2026-08"
+            href={cvUrl}
             variant="primary"
             download="Matias_Torres_CV.pdf"
             aria-label="Descargar CV profesional de Matías Andrés Torres Troncoso"

@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 
 type ImageLightboxProps = {
   screenshots: string[];
+  labels?: string[];
   initialIndex: number;
   projectName: string;
   isOpen: boolean;
@@ -21,6 +22,7 @@ function LightboxPlaceholder() {
 
 function ImageLightbox({
   screenshots,
+  labels,
   initialIndex,
   projectName,
   isOpen,
@@ -30,6 +32,7 @@ function ImageLightbox({
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [failedImages, setFailedImages] = useState<Set<string>>(() => new Set());
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!isOpen) {
@@ -38,7 +41,8 @@ function ImageLightbox({
 
     const lastIndex = Math.max(slides.length - 1, 0);
     setCurrentIndex(Math.min(Math.max(initialIndex, 0), lastIndex));
-    window.setTimeout(() => closeButtonRef.current?.focus(), 0);
+    const timer = window.setTimeout(() => closeButtonRef.current?.focus(), 0);
+    return () => window.clearTimeout(timer);
   }, [initialIndex, isOpen, slides.length]);
 
   useEffect(() => {
@@ -47,10 +51,16 @@ function ImageLightbox({
     }
 
     const originalOverflow = document.body.style.overflow;
+    const opener = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const appRoot = document.getElementById('root');
+    const originalInert = appRoot?.inert ?? false;
+    if (appRoot) appRoot.inert = true;
     document.body.style.overflow = 'hidden';
 
     return () => {
       document.body.style.overflow = originalOverflow;
+      if (appRoot) appRoot.inert = originalInert;
+      opener?.focus();
     };
   }, [isOpen]);
 
@@ -76,6 +86,14 @@ function ImageLightbox({
     }
 
     const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Tab') {
+        const controls = dialogRef.current?.querySelectorAll<HTMLButtonElement>('button:not(:disabled)');
+        const first = controls?.[0];
+        const last = controls?.[controls.length - 1];
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+      }
+      if (['Escape', 'ArrowLeft', 'ArrowRight'].includes(event.key)) event.preventDefault();
       if (event.key === 'Escape') {
         onClose();
       }
@@ -105,6 +123,7 @@ function ImageLightbox({
 
   return createPortal(
     <div
+      ref={dialogRef}
       className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-3 backdrop-blur-md sm:p-6"
       role="dialog"
       aria-modal="true"
@@ -112,7 +131,7 @@ function ImageLightbox({
       onClick={onClose}
     >
       <div
-        className="glass-border relative flex h-[80vh] w-[95vw] flex-col rounded-3xl bg-slate-950/72 p-3 shadow-[0_30px_120px_rgba(0,0,0,0.55),0_0_70px_rgba(34,211,238,0.16)] backdrop-blur-2xl sm:h-[85vh] sm:w-[90vw] sm:p-4"
+        className="glass-border relative flex h-[80dvh] max-h-[80vh] w-[95vw] flex-col overscroll-contain rounded-2xl bg-slate-950/95 p-3 shadow-2xl backdrop-blur-2xl sm:h-[85dvh] sm:max-h-[85vh] sm:w-[90vw] sm:p-4"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="mb-3 flex flex-wrap items-center justify-between gap-3 px-1">
@@ -121,7 +140,7 @@ function ImageLightbox({
               {projectName}
             </p>
             <p className="mt-1 text-sm font-medium text-slate-300" aria-live="polite">
-              {currentIndex + 1} / {Math.max(slides.length, 1)}
+              {labels?.[currentIndex] ? `${labels[currentIndex]} · ` : ''}{currentIndex + 1} / {Math.max(slides.length, 1)}
             </p>
           </div>
 
@@ -142,7 +161,10 @@ function ImageLightbox({
           ) : (
             <img
               src={currentImage}
-              alt={`Captura ${currentIndex + 1} ampliada de ${projectName}`}
+              alt={`${projectName}: ${labels?.[currentIndex] ?? `captura ${currentIndex + 1} ampliada`}`}
+              width={1600}
+              height={900}
+              decoding="async"
               className="h-full max-h-full w-full rounded-2xl object-contain shadow-[0_20px_80px_rgba(0,0,0,0.35)]"
               onError={() => {
                 setFailedImages((current) => {

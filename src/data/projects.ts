@@ -1,3 +1,5 @@
+import { energyacsGallery, type SolutionScreenshot } from './energyacsGallery';
+
 export type Project = {
   name: string;
   type?: string;
@@ -8,6 +10,9 @@ export type Project = {
   role: string;
   learning: string;
   screenshots: string[];
+  screenshotLabels?: string[];
+  solutionGallery?: SolutionScreenshot[];
+  solutions?: { name: string; description: string }[];
   previewFit?: 'cover' | 'contain';
   previewFrame?: 'phone';
   featured?: boolean;
@@ -15,7 +20,7 @@ export type Project = {
   repositoryUrl: string;
 };
 
-export const projects: Project[] = [
+export const archivedProjects: Project[] = [
   {
     name: 'BYV.STOREEE',
     type: 'E-commerce streetwear para negocio real',
@@ -148,4 +153,53 @@ export const projects: Project[] = [
     demoUrl: '#',
     repositoryUrl: '#',
   },
+];
+
+export const projects: Project[] = [
+  {
+    name: 'Soluciones empresariales - EnergyACS / IMPOFUSION',
+    type: 'Experiencia profesional',
+    status: 'Práctica finalizada',
+    description: 'Participación en el desarrollo de aplicaciones y sistemas empresariales orientados a digitalizar procesos industriales, comerciales y administrativos.',
+    problemSolved: 'Digitalizar procesos técnicos, centralizar información comercial y facilitar la gestión con autenticación, permisos e integración de datos.',
+    role: 'Desarrollo web y móvil, integración de datos, QA, pruebas funcionales y documentación técnica durante mi práctica profesional.',
+    learning: 'Trabajo con soluciones empresariales, persistencia offline, sincronización, autenticación, validación y documentación. Cierre técnico en entorno DEV.',
+    technologies: ['Flutter', 'Dart', 'Drift / SQLite', 'Supabase', 'WordPress', 'PHP', 'JavaScript', 'MySQL'],
+    screenshots: energyacsGallery.map((image) => image.src),
+    screenshotLabels: energyacsGallery.map((image) => `${image.category} · ${image.title}`),
+    solutionGallery: energyacsGallery,
+    solutions: [
+      { name: 'IMPUS FUSION', description: 'Aplicación industrial con Flutter, Dart, Drift/SQLite y Supabase: persistencia offline, sincronización, autenticación e historial técnico.' },
+      { name: 'Portal de Créditos', description: 'WordPress, PHP, JavaScript y MySQL. Flujo de siete etapas con validación de RUT, OTP por correo, adjuntos, preevaluación y seguimiento privado.' },
+      { name: 'CRM comercial', description: 'Clientes, captación QR, permisos por vendedor, asignaciones, historial, agenda, recordatorios y exportaciones.' },
+      { name: 'E-IMPUS', description: 'Página de enlaces corporativos, integración de canales digitales y Política de Privacidad.' },
+    ],
+    previewFit: 'contain',
+    featured: true,
+    demoUrl: '#', repositoryUrl: '#',
+  },
+  {
+    name: 'CitaJusta', type: 'Proyecto Capstone',
+    status: 'Prototipo funcional en desarrollo, sujeto a verificación.',
+    description: 'Plataforma de gestión y reserva de citas que permite consultar disponibilidad de servicios, encontrar horarios y facilitar la administración de atenciones entre usuarios e instituciones.',
+    problemSolved: 'Facilitar el acceso a citas disponibles y mejorar la coordinación de horarios, reservas y recursos de atención.',
+    role: 'Desarrollo de interfaces y flujos de reserva, búsqueda de disponibilidad y vistas de gestión institucional.',
+    learning: 'Desarrollo de interfaces, flujos de reserva, diseño de experiencia de usuario y gestión de información en una plataforma con distintos tipos de usuarios.',
+    technologies: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'Node.js', 'NestJS', 'Prisma', 'PostgreSQL'],
+    screenshots: [
+      '/images/projects/citajusta/01-inicio-publico.png',
+      '/images/projects/citajusta/07-busqueda-flexible-y-ubicacion.png',
+      '/images/projects/citajusta/08-resultados-cupos-disponibles.png',
+      '/images/projects/citajusta/09-confirmacion-reserva.png',
+      '/images/projects/citajusta/10-mis-citas-agendada.png',
+      '/images/projects/citajusta/11-lista-espera-ingreso.png',
+      '/images/projects/citajusta/15-oferta-disponible-con-plazo.png',
+      '/images/projects/citajusta/02-inicio-institucional.png',
+      '/images/projects/citajusta/10-reportes-indicadores.png',
+      '/images/projects/citajusta/11-auditoria.png',
+    ],
+    screenshotLabels: ['Inicio público', 'Filtros y ubicación', 'Horarios disponibles', 'Confirmación de reserva', 'Mis citas', 'Lista de espera', 'Oferta de atención', 'Panel institucional', 'Reportes', 'Auditoría'],
+    previewFit: 'contain', demoUrl: '#', repositoryUrl: '#',
+  },
+  ...archivedProjects.filter((project) => !['Habita360', 'VoxIA'].includes(project.name)),
 ];

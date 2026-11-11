@@ -33,3 +33,32 @@ body {
 .glass-border {
   @apply border border-white/10;
 }
+
+* { letter-spacing: 0 !important; }
+html { scroll-padding-top: 6rem; }
+section[id] { scroll-margin-top: 6rem; }
+h1, h2, h3 { text-wrap: balance; overflow-wrap: anywhere; }
+p { text-wrap: pretty; }
+a, button, summary { touch-action: manipulation; }
+:focus-visible { outline: 2px solid #67e8f9; outline-offset: 4px; }
+.skip-link { position: fixed; top: 1rem; left: 1rem; z-index: 200; padding: 1rem; background: #083344; color: white; transform: translateY(-200%); }
+.skip-link:focus { transform: translateY(0); }
+.hero-layout { display: grid; align-items: center; gap: 2.5rem; }
+.hero-visual { min-height: 300px; }
+.experience-layout { display: grid; gap: 2rem; padding: 1.75rem 0; border-top: 1px solid #ffffff18; }
+.experience-period { border-left: 2px solid #67e8f9; padding-left: 1.25rem; }
+.tech-tag { border: 1px solid #ffffff18; border-radius: 6px; padding: .35rem .65rem; color: #cbd5e1; font-size: .875rem; }
+.project-details { border-top: 1px solid #ffffff18; border-bottom: 1px solid #ffffff18; }
+.project-details .rounded-2xl { border: 0; background: none; border-radius: 0; padding: 0; }
+.section-heading h2 { max-width: 28ch; }
+.solution-gallery { width: min(95vw, 1280px); height: 92dvh; max-width: 95vw; max-height: calc(100dvh - 24px); margin: auto; padding: 0; overflow: hidden; border: 1px solid #ffffff26; border-radius: 16px; color: #f1f5f9; background: #071120f5; box-shadow: 0 24px 80px #0008; overscroll-behavior: contain; }
+.solution-gallery::backdrop { background: #000b; backdrop-filter: blur(12px); }
+@media (min-width: 768px) { .solution-gallery { width: min(90vw, 1280px); height: 85dvh; } }
+@media (min-width: 1024px) {
+  .hero-layout { grid-template-columns: 1.25fr 1fr; gap: 3rem; }
+  .hero-visual { min-height: 430px; }
+  .experience-layout { grid-template-columns: 240px minmax(0,1fr); }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
+}

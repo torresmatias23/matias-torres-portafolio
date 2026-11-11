@@ -3,6 +3,7 @@ import ButtonLink from '../ui/ButtonLink';
 import GlassCard from '../ui/GlassCard';
 import SectionTitle from '../ui/SectionTitle';
 import ScreenshotCarousel from '../ui/ScreenshotCarousel';
+import SolutionGalleryPreview from '../ui/SolutionGalleryPreview';
 
 type ProjectActionProps = {
   href: string;
@@ -55,17 +56,18 @@ function ProjectCard({ project, className = '' }: { project: Project; className?
     <GlassCard
       className={`flex h-full flex-col overflow-hidden ${
         isFeatured
-          ? 'ring-1 ring-inset ring-cyan-300/20 shadow-[0_24px_90px_rgba(34,211,238,0.16),0_12px_42px_rgba(109,40,217,0.1)]'
+          ? 'ring-1 ring-inset ring-cyan-300/20'
           : ''
       } ${className}`}
     >
       <div className="min-w-0">
-        <ScreenshotCarousel
+        {project.solutionGallery ? <SolutionGalleryPreview images={project.solutionGallery} /> : <ScreenshotCarousel
           images={project.screenshots}
+          labels={project.screenshotLabels}
           projectName={project.name}
           previewFit={project.previewFit}
           previewFrame={project.previewFrame}
-        />
+        />}
       </div>
 
       <div className="flex flex-1 flex-col p-6 pt-2">
@@ -91,7 +93,15 @@ function ProjectCard({ project, className = '' }: { project: Project; className?
 
         <p className="mt-4 leading-7 text-slate-300">{project.description}</p>
 
-        <div className="mt-5 grid gap-3">
+        <details className="project-details mt-5">
+          <summary className="cursor-pointer py-3 font-medium text-cyan-100">Explorar el proyecto</summary>
+        <div className="grid gap-4 pb-5 pt-3">
+          {project.solutions?.map((solution) => (
+            <div key={solution.name} className="border-l border-cyan-200/30 pl-4">
+              <h4 className="font-semibold text-white">{solution.name}</h4>
+              <p className="mt-2 text-sm leading-6 text-slate-300">{solution.description}</p>
+            </div>
+          ))}
           <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-100/80">
               Problema
@@ -113,6 +123,7 @@ function ProjectCard({ project, className = '' }: { project: Project; className?
             </div>
           </div>
         </div>
+        </details>
 
         <div className="mt-5 flex flex-wrap gap-2">
           {project.technologies.map((technology) => (
@@ -161,7 +172,7 @@ function Projects() {
             key={project.name}
             project={project}
             className={
-              index === projects.length - 1
+              projects.length % 2 === 1 && index === projects.length - 1
                 ? 'md:col-span-2 md:mx-auto md:w-[calc(50%_-_0.75rem)]'
                 : ''
             }

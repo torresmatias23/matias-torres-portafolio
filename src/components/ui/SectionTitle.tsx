@@ -6,13 +6,13 @@ type SectionTitleProps = {
 
 function SectionTitle({ eyebrow, title, description }: SectionTitleProps) {
   return (
-    <div className="mx-auto mb-10 max-w-3xl text-center">
-      {eyebrow ? (
-        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-cyan-200/80">
+    <div className="section-heading mb-8 max-w-3xl">
+      {eyebrow && eyebrow.toLocaleLowerCase('es') !== title.toLocaleLowerCase('es') ? (
+        <p className="mb-3 text-sm font-medium text-cyan-200/80">
           {eyebrow}
         </p>
       ) : null}
-      <h2 className="text-3xl font-bold text-white sm:text-4xl">{title}</h2>
+      <h2 className="text-3xl font-semibold text-white sm:text-4xl">{title}</h2>
       {description ? (
         <p className="mt-4 text-base leading-7 text-slate-300">{description}</p>
       ) : null}

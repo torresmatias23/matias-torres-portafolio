@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import ImageLightbox from './ImageLightbox';
 
 type ScreenshotCarouselProps = {
   images: string[];
+  labels?: string[];
   projectName: string;
   intervalMs?: number;
   previewFit?: 'cover' | 'contain';
@@ -23,6 +24,7 @@ function Placeholder() {
 
 function ScreenshotCarousel({
   images,
+  labels,
   projectName,
   intervalMs = 4000,
   previewFit = 'cover',
@@ -31,10 +33,22 @@ function ScreenshotCarousel({
   const slides = useMemo(() => (images.length > 0 ? images : ['']), [images]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [isStopped, setIsStopped] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [loadedImages, setLoadedImages] = useState<Set<string>>(() => new Set());
   const [failedImages, setFailedImages] = useState<Set<string>>(() => new Set());
+  const closeLightbox = useCallback(() => setIsLightboxOpen(false), []);
+
+  useEffect(() => {
+    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const update = () => setReducedMotion(preference.matches);
+    update();
+    preference.addEventListener('change', update);
+    return () => preference.removeEventListener('change', update);
+  }, []);
 
   useEffect(() => {
     if (activeIndex >= slides.length) {
@@ -43,7 +57,7 @@ function ScreenshotCarousel({
   }, [activeIndex, slides.length]);
 
   useEffect(() => {
-    if (isPaused || isLightboxOpen || slides.length <= 1) {
+    if (isPaused || isStopped || isFocused || reducedMotion || isLightboxOpen || slides.length <= 1) {
       return;
     }
 
@@ -52,7 +66,7 @@ function ScreenshotCarousel({
     }, intervalMs);
 
     return () => window.clearInterval(timer);
-  }, [intervalMs, isLightboxOpen, isPaused, slides.length]);
+  }, [intervalMs, isLightboxOpen, isPaused, isStopped, isFocused, reducedMotion, slides.length]);
 
   const goToPrevious = () => {
     setActiveIndex((current) => (current - 1 + slides.length) % slides.length);
@@ -105,8 +119,11 @@ function ScreenshotCarousel({
     const usePhoneFrame = previewFrame === 'phone' || fileName === 'mobile.png';
     const sharedImageProps = {
       src: image,
-      alt: `Captura ${index + 1} de ${projectName}`,
+      alt: `${projectName}: ${labels?.[index] ?? `captura ${index + 1}`}`,
       loading: 'lazy' as const,
+      decoding: 'async' as const,
+      width: 1600,
+      height: 900,
       onLoad: () => markAsLoaded(image),
       onError: () => markAsFailed(image),
     };
@@ -139,6 +156,9 @@ function ScreenshotCarousel({
         className="relative m-4 aspect-video overflow-hidden rounded-2xl border border-white/10 bg-[radial-gradient(circle_at_25%_20%,rgba(34,211,238,0.2),transparent_30%),radial-gradient(circle_at_80%_0%,rgba(167,139,250,0.18),transparent_34%),linear-gradient(135deg,rgba(15,23,42,0.92),rgba(30,41,59,0.5))]"
         aria-label={`Carrusel de capturas de ${projectName}`}
         aria-roledescription="carousel"
+        role="region"
+        onFocus={() => setIsFocused(true)}
+        onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setIsFocused(false); }}
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
@@ -160,6 +180,7 @@ function ScreenshotCarousel({
               {image ? (
                 <button
                   type="button"
+                  tabIndex={isActive && !imageFailed ? 0 : -1}
                   className={`group h-full w-full cursor-pointer overflow-hidden focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-300/70 ${
                     imageFailed ? 'hidden' : 'block'
                   }`}
@@ -198,32 +219,34 @@ function ScreenshotCarousel({
               &gt;
             </button>
 
-            <div className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 gap-2 rounded-full border border-white/10 bg-slate-950/45 px-3 py-2 backdrop-blur-xl">
+            <div className="absolute bottom-3 left-1/2 z-20 flex max-w-[calc(100%-1rem)] -translate-x-1/2 overflow-x-auto rounded-full border border-white/10 bg-slate-950/75 px-2 backdrop-blur-xl">
               {slides.map((image, index) => (
                 <button
                   key={`${projectName}-dot-${image || index}`}
                   type="button"
-                  className={`h-2.5 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-cyan-300/60 ${
-                    index === activeIndex
-                      ? 'w-6 bg-cyan-200'
-                      : 'w-2.5 bg-white/35 hover:bg-white/60'
-                  }`}
+                  className="flex h-8 w-6 shrink-0 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-300/60"
                   aria-label={`Ver captura ${index + 1} de ${projectName}`}
                   aria-current={index === activeIndex ? 'true' : undefined}
                   onClick={() => setActiveIndex(index)}
-                />
+                ><span className={`h-2 w-2 rounded-full transition-colors ${index === activeIndex ? 'bg-cyan-200' : 'bg-white/45 hover:bg-white/70'}`} /></button>
               ))}
             </div>
           </>
         ) : null}
       </div>
 
+      <div className="mx-4 mb-4 flex min-h-11 items-center justify-between gap-3 text-sm text-slate-300">
+        <p className="min-w-0" aria-live={isPaused || isStopped || isFocused ? 'polite' : 'off'}>{labels?.[activeIndex] ?? `Captura ${activeIndex + 1}`} <span className="text-slate-400">/ {slides.length}</span></p>
+        {slides.length > 1 && !reducedMotion ? <button type="button" className="shrink-0 rounded-lg border border-white/15 px-3 py-2 hover:bg-white/10" aria-label={`${isStopped ? 'Reanudar' : 'Pausar'} carrusel de ${projectName}`} aria-pressed={isStopped} onClick={() => setIsStopped((current) => !current)}>{isStopped ? 'Reanudar' : 'Pausar'}</button> : null}
+      </div>
+
       <ImageLightbox
         screenshots={slides}
+        labels={labels}
         initialIndex={lightboxIndex}
         projectName={projectName}
         isOpen={isLightboxOpen}
-        onClose={() => setIsLightboxOpen(false)}
+        onClose={closeLightbox}
       />
     </>
   );
